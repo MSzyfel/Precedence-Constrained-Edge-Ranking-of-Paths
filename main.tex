@@ -42,6 +42,8 @@
 \newcommand{\questioner}{questioner }
 \newcommand{\target}{h^*}
 \newcommand{\bigo}{\mathcal{O}}
+\newcommand{\precrankmax}{\chi_r^{\preceq}}
+\newcommand{\precranksum}{\Sigma_r^{\preceq}}
 
 \newcommand{\br}[1]{\mathopen{}\left( #1 \right)}
 \newcommand{\brc}[1]{\mathopen{}\left\{ #1 \right\}}
@@ -107,46 +109,20 @@
 We study the problem of precedence-constrained edge ranking of paths, which is a variant of the classical edge ranking problem. In this problem, we want to assign numbers to the edges of a path so that every two edges labeled with the same number have at least one edge with a lower number between them. Additionally, we have precedence constraints that require some edges to be labeled with smaller numbers than the others.
 The goal is to find a labeling that satisfies the precedence constraints. We wish to minimize either the number of labels used or the sum of the labels assigned to the edges. 
 This problem can be used to model parallel evaluation of algebraic expressions, with precedence constraints induced by the order of operations.
-We show that the problem is NP-hard for both criterions, and admits $O(\log n)$-approximation algorithms. In fact we show that when minimizing the number of colors it is NP-hard to approximate the problem within a factor of $O(1+\frac{1}{\log n})$, unless P=NP. This implies that no PTAS for the problem exists unless NP admits quasi-polynomial time algorithms.
+We show that the problem is NP-hard for both criterions, and admits $O(\log n)$-approximation algorithms. In fact we show that when minimizing the number of colors it is NP-hard to approximate the problem within a factor of $1+o\br{\frac{1}{\log n}}$, unless P=NP. This implies that no QPTAS for the problem exists unless NP admits quasi-polynomial time algorithms.
 Additionally, we show that when the structure of the precedence constraints reflects an ordering induced by a proper bracketing of the algebraic expression, the problem can be solved in $O(n^2)$ time.
 \end{abstract}
 
-\section{Introduction}
-
-Consider the problem of parallel algebraic expression evaluation. We are given an algebraic expression which consists of a series of binary operations between operands. Additionally, these operations are subject to precedence constraints, induced by the order of operations, which enforce that some operations must be evaluated before others. Upon evaluating an operation, the two operands which underwent the operation are replaced by the result of the operation. We wish to evaluate the expression in parallel using unlimited amount of processors. The machines are uniform, and the time needed to evaluate any operation is the same. At any given time step, we choose a subset of the operations to be evaluated in parallel, with the condition, that no operand can undergo more than one operation at the same time, thus the operators must form a matching. Additionally, each operations can only be evaluated after all the operations which are its predecessors in the precedence constraints have been evaluated. 
-
-The above problem can be modeled using the precedence-constrained edge ranking of paths problem, which is a variant of the classical edge ranking problem. In this problem, we are given a path graph, and a set of precedence constraints between the edges of the path. We wish to assign numbers to the edges of the path so that every two edges labeled with the same number have at least one edge with a lower number between them. Additionally, if there is a precedence constraint between two edges, then the edge which is the predecessor must be labeled with a smaller number than the edge which is the successor. The goal is to find a labeling that satisfies the precedence constraints. We wish to minimize either the number of labels used or the sum of the labels assigned to the edges.
-
-\subsection{Related work}
-
-\subsection{Our results}
-
-\section{Preliminaries}
-
-\section{Hardness}
-
-We start by showing that when the input graph consists of a collections of paths of $O\br{1}$ length the problem is in fact APX-hard. Then, we show how to use a generic csontruction, which transforms an instance of the problem with a collection of paths into an instance of the problem with a single path. This is done by connecting the paths in an arbitrary order, and enforcing that the additional edges are labeled with colors which are levels of a full binary tree of logarithmic height. By doing so, we show that the problem is NP-hard to approximate within a factor of $O(1+\frac{1}{\log n})$, unless P=NP. This implies that no PTAS for the problem exists unless NP admits quasi-polynomial time algorithms.
-\begin{theorem}
-\label{thm:apx-hardness}
-The precedence-constrained edge ranking is APX-hard, even when the input graph consists of a collection of paths of $O\br{1}$ length.
-\end{theorem}
-
-\begin{theorem}
-\label{thm:np-hardness}
-The precedence-constrained edge ranking of a path is NP-hard to approximate within a factor of $O(1+\frac{1}{\log n})$, unless P=NP.
-\end{theorem}
-
-\begin{theorem}
-\label{thm:np-hardness-sum}
-The precedence-constrained min-sum edge ranking of a path is NP-hard.
-\end{theorem}
+\input{sections/introduction.tex}
+\input{sections/preliminaries.tex}
+\input{sections/hardness.tex}
 \section{Approximation algorithms}
 \begin{theorem}
-There exists an $O\br{\log n}$-approximation algorithm for the precedence-contrained edge ranking of a path.
+There exists an $O\br{\log n}$-approximation algorithm for the precedence-constrained edge ranking of a path.
 \end{theorem}
 
 \begin{theorem}
-There exists an $O\br{\log n}$-approximation algorithm for the precedence-contrained min-sum edge ranking of a path.
+There exists an $O\br{\log n}$-approximation algorithm for the precedence-constrained min-sum edge ranking of a path.
 \end{theorem}
 \section{Exact algorithm for the case of proper bracketing}
 

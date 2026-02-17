@@ -1,0 +1,9 @@
+\section{Introduction}
+
+Consider the problem of parallel algebraic expression evaluation. We are given an algebraic expression which consists of a series of binary operations between operands. Additionally, these operations are subject to precedence constraints, induced by the order of operations, which enforce that some operations must be evaluated before others. Upon evaluating an operation, the two operands which underwent the operation are replaced by the result of the operation. We wish to evaluate the expression in parallel using unlimited amount of processors. The machines are uniform, and the time needed to evaluate any operation is the same. At any given time step, we choose a subset of the operations to be evaluated in parallel, with the condition, that no operand can undergo more than one operation at the same time, thus the operators must form a matching. Additionally, each operations can only be evaluated after all the operations which are its predecessors in the precedence constraints have been evaluated. 
+
+The above problem can be modeled using the precedence-constrained edge ranking of paths problem, which is a variant of the classical edge ranking problem. In this problem, we are given a path graph, and a set of precedence constraints between the edges of the path. We wish to assign numbers to the edges of the path so that every two edges labeled with the same number have at least one edge with a lower number between them. Additionally, if there is a precedence constraint between two edges, then the edge which is the predecessor must be labeled with a smaller number than the edge which is the successor. The goal is to find a labeling that satisfies the precedence constraints. We wish to minimize either the number of labels used or the sum of the labels assigned to the edges.
+
+\subsection{Related work}
+
+\subsection{Our results}

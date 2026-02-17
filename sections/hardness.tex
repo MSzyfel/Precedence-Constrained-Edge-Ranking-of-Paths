@@ -1,0 +1,41 @@
+\section{Hardness}
+
+We start by allowing the input graph to consist of a collection of paths of $O\br{1}$ size, rather than a single path, and show that the computing $\precrankmax$ is APX-hard. Then, we show how to use a generic construction, which transforms an instance of the problem with a collection of paths into an instance of the problem with a single path. This is done by connecting the paths in an arbitrary order, and enforcing that the additional edges are labeled with colors which are levels of a full binary tree of logarithmic height. By doing so, we show that the problem is NP-hard to approximate within a factor of $O(1+\frac{1}{\log n})$, unless P=NP. This implies that no PTAS for the problem exists unless NP admits quasi-polynomial time algorithms.
+\begin{theorem}
+\label{thm:apx-hardness}
+It is NP-hard to distinguish between instances of the precedence-constrained edge ranking problem on a collection of paths of $O\br{1}$ size, which have $\precrankmax=3$ and  $\precrankmax=4$. In particular, the precedence-constrained edge ranking problem on a collection of paths of $O\br{1}$ size is APX-hard.
+\end{theorem}
+\begin{proof}
+    An instance of 3-SAT consists of a set of boolean variables $\cX=\brc{x_1, \ldots, x_n}$ and a set of clauses $\cC=\brc{C_1, \ldots, C_m}$, where each clause is a disjunction of exactly three literals. The goal is to determine whether there exists an assignment to the variables such that all the clauses are satisfied. It is well known that 3-SAT is NP-hard problem. We show how to reduce an instance of 3-SAT to an instance of the precedence-constrained edge ranking problem on $O\br{1}$-length paths.
+    
+    We start by introducing a dummy gadget which consists of a path on four edges $e_1,e_2,e_3,e_4$, with precedence constraints $e_1\prec e_2\prec e_3\prec e_4$. It is easy to verify that in any precedence-constrained edge ranking of the dummy gadget, we have $\ell(e_1)=1$, $\ell(e_2)=2$, $\ell(e_3)=3$ and $\ell(e_4)=4$. We use the dummy gadget to enforce certain edges to be allowed to be colored only with a specific (consecutive) subset of the colors $\brc{1,2,3,4}$. Therefore
+    For each variable $x_i$, we introduce a variable gadget which consists of: a path on two edges $e_{x_i}$ and $e_{\bar{x_i}}$ and two separate paths, each on one edge $e_{x_i}'$ and $e_{\bar{x_i}}'$ respectively. We inforce that $\ell\br{e_{x_i}}\in \brc{1,2}$ and $\ell\br{e_{\bar{x_i}}}\in \brc{1,2}$\footnote{Note that this is not neccessary, however serves simplifies the presentation}. We also set $e_{x_i}\preceq e_{x_i}'$ and $e_{\bar{x_i}}\preceq e_{\bar{x_i}}'$. The choice of assignment of colors $\brc{1,2}$ to $e_{x_i}$ and $e_{\bar{x_i}}$ corresponds to the choice of assignment of the variable $x_i$ to either true (1) or false (2). For each clause $C_j$, we introduce a clause gadget which consists of a path on three edges $e_{C_j}^1,e_{C_j}^2,e_{C_j}^3$, corresponding to three literals in the clause. We enforce $\ell{e_{C_j}^1}\in \brc{2,3,4}$, $\ell{e_{C_j}^2}\in \brc{3,4}$ and $\ell{e_{C_j}^3}\in \brc{2,3,4}$. For $e_{C_j}^1$ and $e_{C_j}^3$ we set $e_{C_j}^1$ to be a successor of the variable edge corresponding to the first (ord third respectively) literal in the clause, which belongs to the path of size two (non-prim one). For $e_{C_j}^2$ we set it to be a successor of the variable edge corresponding to the second literal in the clause, which belongs to the path of size one (prim one). 
+
+    Firstly, we show that if there exists a satisfying assignment to the variables, then there exists a precedence-constrained edge ranking of the constructed instance with $\precrankmax=4$. We set $\ell(e_{x_i})=1$, $\ell(e_{x_i}')=2$, $\ell(e_{\bar{x_i}})=2$ and $\ell(e_{\bar{x_i}})'=3$ if $x_i$ is assigned to true, and $\ell(e_{x_i})=2$, $\ell(e_{x_i}')=3$, $\ell(e_{\bar{x_i}})=1$ and $\ell(e_{\bar{x_i}})'=2$ if $x_i$ is assigned to false. There are two cases:
+    \begin{enumerate}
+        \item The literal corresponding to $e_{C_j}^2$ is satisfied. In this case, we set $\ell(e_{C_j}^2)=3$, $\ell(e_{C_j}^1)=4$ and $\ell(e_{C_j}^3)=4$. Since the literal corresponding to $e_{C_j}^2$ is satisfied, we know that color $3$ is available for $e_{C_j}^2$, and since color $4$ is available for $e_{C_j}^1$ and $e_{C_j}^3$ the coloroing is valid.
+        \item The literal corresponding to $e_{C_j}^1$ (or symmetrically $e_{C_j}^3$) is satisfied. In this case, we set $\ell(e_{C_j}^1)=2$, $\ell(e_{C_j}^2)=4$ and $\ell(e_{C_j}^3)=3$. Since the literal corresponding to $e_{C_j}^1$ is satisfied, we know that color $2$ is available for $e_{C_j}^1$, and since color $4$ is available for $e_{C_j}^2$ and color $3$ is available for $e_{C_j}^3$ the coloring is valid. 
+    \end{enumerate}
+
+    Secondly, we show that if there exists a precedence-constrained edge ranking of the constructed instance with $\precrankmax=4$, then there exists a satisfying assignment to the variables. For every $x_i$ we assign $x_i=1$ if $\ell(e_{x_i})=1$ and $x_i=0$ if $\ell(e_{\bar{x_i}})=1$. We show that every clause is satisfied. There are two cases for the assignment of colors to the edges of the clause gadget (remaining cases are symmetric):
+    \begin{enumerate}
+        \item Either $\ell(e_{C_j}^1)=2$, $\ell(e_{C_j}^2)=3$ and $\ell(e_{C_j}^3)=4$ or $\ell(e_{C_j}^1)=2$, $\ell(e_{C_j}^2)=4$ and $\ell(e_{C_j}^3)=3$. In this case, the literal corresponding to $e_{C_j}^1$ is satisfied, and thus the clause is satisfied.
+        \item $\ell(e_{C_j}^1)=4$, $\ell(e_{C_j}^2)=3$ and $\ell(e_{C_j}^3)=4$. In this case, the literal corresponding to $e_{C_j}^2$ is satisfied, and thus the clause is satisfied.
+    \end{enumerate}
+
+    Observe, that if we were to allow usage of colors $\brc{1,2,3,4,5}$, then every clause could be colored using colors $5,4,5$. We therefore see that it is NP-hard to distinguish between instances wherer $\precrankmax=4$ and  $\precrankmax=5$. In particular, the precedence-constrained edge ranking problem on a collection of paths of $O\br{1}$ cannot be approximated within a factor of $5/4-\epsilon=1.25-\epsilon$ unless P=NP, and thus is APX-hard.
+\end{proof}
+
+\begin{theorem}
+\label{thm:np-hardness}
+The precedence-constrained edge ranking of a path is NP-hard to approximate within a factor of $1+o\br{\frac{1}{\log n}}$, unless P=NP.
+\end{theorem}
+\begin{proof}
+    Let $K$ be the number of paths in the instance of the precedence-constrained edge ranking problem on a collection of paths of $O\br{1}$ size from the previous reduction. We order the paths arbitrarily and connect them in this order. We set the precedence constraints on the additional edges in order for them to form a almost perfect balanced tree with $\cl{\log K}$ levels. We also set additional edges to precede all of the original edges. It is easy to verify that in any precedence-constrained edge ranking of the new instance, the additional edges must be colored with colors $\brc{1,\ldots,\cl{\log K}}$, and the colors remaining for original edges are $\brc{\cl{\log K}+1,\ldots,\cl{\log K}+4}$ is the original 3-SAT isnstance were to be satisfiable. Therefore, it is NP-hard to distinguish between instances of the precedence-constrained edge ranking problem on a path, which have $\precrankmax=\cl{\log K}+4$ and  $\precrankmax=\cl{\log K}+5$. Since $K\geq n/5$, we have that the problem cannot be approximated within a factor of $1+o\br{\frac{1}{\log n}}$ unless P=NP.
+\end{proof}
+
+The above theorem implies that no QPTAS for the precedence-constrained edge ranking problem on a path exists unless NP admits quasi-polynomial time algorithms which is widely believed to be false. 
+\begin{theorem}
+\label{thm:np-hardness-sum}
+The precedence-constrained min-sum edge ranking of a path is NP-hard.
+\end{theorem}

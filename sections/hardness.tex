@@ -1,4 +1,5 @@
 \section{Hardness}
+\label{sec:hardness}
 
 We start by allowing the input graph to consist of a collection of paths of $O\br{1}$ size, rather than a single path, and show that the computing $\precrankmax$ is APX-hard. Then, we show how to use a generic construction, which transforms an instance of the problem with a collection of paths into an instance of the problem with a single path. This is done by connecting the paths in an arbitrary order, and enforcing that the additional edges are labeled with colors which are levels of a full binary tree of logarithmic height. By doing so, we show that the problem is NP-hard to approximate within a factor of $O(1+\frac{1}{\log n})$, unless P=NP. This implies that no PTAS for the problem exists unless NP admits quasi-polynomial time algorithms.
 \begin{theorem}
@@ -10,6 +11,10 @@ It is NP-hard to distinguish between instances of the precedence-constrained edg
     
     We start by introducing a dummy gadget which consists of a path on four edges $e_1,e_2,e_3,e_4$, with precedence constraints $e_1\prec e_2\prec e_3\prec e_4$. It is easy to verify that in any precedence-constrained edge ranking of the dummy gadget, we have $\ell(e_1)=1$, $\ell(e_2)=2$, $\ell(e_3)=3$ and $\ell(e_4)=4$. We use the dummy gadget to enforce certain edges to be allowed to be colored only with a specific consecutive subset of the colors $\brc{1,2,3,4}$. Therefore
     For each variable $x_i$, we introduce a variable gadget which consists of: a path on two edges $e_{x_i}$ and $e_{\bar{x_i}}$ and two separate paths, each on one edge $e_{x_i}'$ and $e_{\bar{x_i}}'$ respectively. We inforce that $\ell\br{e_{x_i}}\in \brc{1,2}$ and $\ell\br{e_{\bar{x_i}}}\in \brc{1,2}$\footnote{Note that this is not neccessary, however serves simplifies the presentation}. We also set $e_{x_i}\preceq e_{x_i}'$ and $e_{\bar{x_i}}\preceq e_{\bar{x_i}}'$. The choice of assignment of colors $\brc{1,2}$ to $e_{x_i}$ and $e_{\bar{x_i}}$ corresponds to the choice of assignment of the variable $x_i$ to either true (1) or false (2). For each clause $C_j$, we introduce a clause gadget which consists of a path on three edges $e_{C_j}^1,e_{C_j}^2,e_{C_j}^3$, corresponding to three literals in the clause. We enforce $\ell{e_{C_j}^1}\in \brc{2,3,4}$, $\ell{e_{C_j}^2}\in \brc{3,4}$ and $\ell{e_{C_j}^3}\in \brc{2,3,4}$. For $e_{C_j}^1$ and $e_{C_j}^3$ we set $e_{C_j}^1$ to be a successor of the variable edge corresponding to the first (ord third respectively) literal in the clause, which belongs to the path of size two (non-prim one). For $e_{C_j}^2$ we set it to be a successor of the variable edge corresponding to the second literal in the clause, which belongs to the path of size one (prim one). 
+
+    \input{figures/gadgets.tex}
+
+    \input{figures/construction_overview.tex}
 
     Firstly, we show that if there exists a satisfying assignment to the variables, then there exists a precedence-constrained edge ranking of the constructed instance with $\precrankmax=4$. We set $\ell(e_{x_i})=1$, $\ell(e_{x_i}')=2$, $\ell(e_{\bar{x_i}})=2$ and $\ell(e_{\bar{x_i}})'=3$ if $x_i$ is assigned to true, and $\ell(e_{x_i})=2$, $\ell(e_{x_i}')=3$, $\ell(e_{\bar{x_i}})=1$ and $\ell(e_{\bar{x_i}})'=2$ if $x_i$ is assigned to false. There are two cases:
     \begin{enumerate}
@@ -23,7 +28,7 @@ It is NP-hard to distinguish between instances of the precedence-constrained edg
         \item $\ell(e_{C_j}^1)=4$, $\ell(e_{C_j}^2)=3$ and $\ell(e_{C_j}^3)=4$. In this case, the literal corresponding to $e_{C_j}^2$ is satisfied, and thus the clause is satisfied.
     \end{enumerate}
 
-    Observe, that if we were to allow usage of colors $\brc{1,2,3,4,5}$, then every clause could be colored using colors $5,4,5$. We therefore see that it is NP-hard to distinguish between instances wherer $\precrankmax=4$ and  $\precrankmax=5$. In particular, the precedence-constrained edge ranking problem on a collection of paths of $O\br{1}$ cannot be approximated within a factor of $5/4-\epsilon=1.25-\epsilon$ unless P=NP, and thus is APX-hard.
+    Observe, that if we were to allow usage of colors $\brc{1,2,3,4,5}$, then every clause could be colored using colors $5,4,5$. We therefore see that it is NP-hard to distinguish between instances where $\precrankmax=4$ and  $\precrankmax=5$. In particular, the precedence-constrained edge ranking problem on a collection of paths of $O\br{1}$ cannot be approximated within a factor of $5/4-\epsilon=1.25-\epsilon$ unless P=NP, and thus is APX-hard.
 \end{proof}
 
 \begin{theorem}

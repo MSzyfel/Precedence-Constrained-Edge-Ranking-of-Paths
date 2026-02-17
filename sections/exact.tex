@@ -1,4 +1,5 @@
 \section{Exact algorithm for the case of proper bracketing}
+\label{sec:exact}
 
 \begin{theorem}
 \label{thm:proper-bracketing}
@@ -19,7 +20,7 @@ As a direct consequence of the above lemma, we have that the problem can be solv
 \OPT\br{i,j} = \min_{i\leq k < j, (k,k+1) \text{ is a maximum element}}\brc{1+\max\brc{\OPT\br{i, k}, \OPT\br{k+1, j}}}
 \end{align*}
 
-It is ease to see that the above recurrence relationship can be solved in $O\br{n^3}$ time since there are at most $O\br{n^2}$ subproblems and each subproblem can be solved by checking at most $O\br{n}$ possible choices for the edge with the highest color. We will now show how to speed up the above algorithm to run in $O\br{n^2}$ time. The idea behind the speed-up described below is due to Knuth \cite{Knuth1973} and \cite{EffDPusingQI}. For every $i\leq k< j$ let $\OPT_k\br{i,j} = 1 + \max\brc{\OPT\br{i, k}, \OPT\br{k, j}}$ be the optimal cost of coloring $P[i,j]$ assuming that the edge $\br{k, k+1}$ is the unique edge with the smallest color. We have that $\OPT\br{i,j}\leq \OPT_k\br{i,j}$. Additionally, define 
+It is ease to see that the above recurrence relationship can be solved in $O\br{n^3}$ time since there are at most $O\br{n^2}$ subproblems and each subproblem can be solved by checking at most $O\br{n}$ possible choices for the edge with the highest color. We will now show how to speed up the above algorithm to run in $O\br{n^2}$ time. The idea behind the speed-up described below is based on the techniques used to construct decision tree for binary searching in a linearly ordered set due to Knuth \cite{Knuth1973} and Yao \cite{EffDPusingQI}. For every $i\leq k< j$ let $\OPT_k\br{i,j} = 1 + \max\brc{\OPT\br{i, k}, \OPT\br{k, j}}$ be the optimal cost of coloring $P[i,j]$ assuming that the edge $\br{k, k+1}$ is the unique edge with the smallest color. We have that $\OPT\br{i,j}\leq \OPT_k\br{i,j}$. Additionally, define 
 $K\br{i,j} = \max_{i\leq k< j}\brc{k|\OPT_k\br{i,j}=\OPT\br{i,j}}$ to be the largest index such that setting $(k,k+1)$ as the edge with smallest color yields an optimal solution. We have the following lemma:
 \begin{lemma}
    $K\br{i,j-1}\leq K\br{i,j}\leq K\br{i +1,j}$
@@ -68,7 +69,7 @@ We have the following lemma:
  
 Using the above lemma, we obtain the following recurrence relationship:
 $$
-\OPT_{sum}\br{i,j} = \min_{K\br{i,j-1}\leq k\leq K\br{i +1,j}}\brc{w\br{i,j}+\OPT_{sum}\br{i, k}+ \OPT_{sum}\br{k+1, j}}
+\OPT\br{i,j} = \min_{K\br{i,j-1}\leq k\leq K\br{i +1,j}}\brc{w\br{i,j}+\OPT\br{i, k}+ \OPT\br{k+1, j}}
 $$
 By using the same argument as for the min-max version of the problem, we have that the above algorithm runs in $O\br{n^2}$ time. This proves the claim.
     \end{proof}

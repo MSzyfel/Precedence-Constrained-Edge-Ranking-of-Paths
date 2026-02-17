@@ -1,0 +1,170 @@
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+    nd/.style={circle, fill, inner sep=1.5pt},
+    elabel/.style={midway, font=\scriptsize},
+    prec/.style={->, dashed, thick, gray, opacity=0.7},
+    gadget box/.style={draw, rounded corners, dashed, thin, gray!60, inner sep=6pt},
+    glabel/.style={font=\footnotesize\bfseries},
+    scale=0.75, every node/.style={transform shape}
+]
+
+% ====== Variable gadgets ======
+% x_1
+\begin{scope}[shift={(0,0)}]
+    \node[nd] (x1a0) at (0,0) {};
+    \node[nd] (x1a1) at (0,-1) {};
+    \node[nd] (x1a2) at (0,-2) {};
+    \draw (x1a0) -- node[elabel, left] {$e_{x_1}$} (x1a1);
+    \draw (x1a1) -- node[elabel, left] {$e_{\bar{x}_1}$} (x1a2);
+
+    \node[nd] (x1b0) at (1.1, 0.2) {};
+    \node[nd] (x1b1) at (1.1,-0.8) {};
+    \draw (x1b0) -- node[elabel, right] {$e_{x_1}'$} (x1b1);
+
+    \node[nd] (x1c0) at (1.1,-1.2) {};
+    \node[nd] (x1c1) at (1.1,-2.2) {};
+    \draw (x1c0) -- node[elabel, right] {$e_{\bar{x}_1}'$} (x1c1);
+
+    \draw[prec, thin] ($(x1a0)!0.3!(x1a1)+(0.08,0)$) to[out=15,in=165] ($(x1b0)!0.7!(x1b1)+(-0.08,0)$);
+    \draw[prec, thin] ($(x1a1)!0.7!(x1a2)+(0.08,0)$) to[out=-15,in=-165] ($(x1c0)!0.3!(x1c1)+(-0.08,0)$);
+
+    \node[gadget box, fit=(x1a0)(x1a2)(x1b0)(x1c1)] (vbox1) {};
+    \node[glabel, above] at (vbox1.north) {$x_1$};
+\end{scope}
+
+% x_2
+\begin{scope}[shift={(3.8,0)}]
+    \node[nd] (x2a0) at (0,0) {};
+    \node[nd] (x2a1) at (0,-1) {};
+    \node[nd] (x2a2) at (0,-2) {};
+    \draw (x2a0) -- node[elabel, left] {$e_{x_2}$} (x2a1);
+    \draw (x2a1) -- node[elabel, left] {$e_{\bar{x}_2}$} (x2a2);
+
+    \node[nd] (x2b0) at (1.1, 0.2) {};
+    \node[nd] (x2b1) at (1.1,-0.8) {};
+    \draw (x2b0) -- node[elabel, right] {$e_{x_2}'$} (x2b1);
+
+    \node[nd] (x2c0) at (1.1,-1.2) {};
+    \node[nd] (x2c1) at (1.1,-2.2) {};
+    \draw (x2c0) -- node[elabel, right] {$e_{\bar{x}_2}'$} (x2c1);
+
+    \draw[prec, thin] ($(x2a0)!0.3!(x2a1)+(0.08,0)$) to[out=15,in=165] ($(x2b0)!0.7!(x2b1)+(-0.08,0)$);
+    \draw[prec, thin] ($(x2a1)!0.7!(x2a2)+(0.08,0)$) to[out=-15,in=-165] ($(x2c0)!0.3!(x2c1)+(-0.08,0)$);
+
+    \node[gadget box, fit=(x2a0)(x2a2)(x2b0)(x2c1)] (vbox2) {};
+    \node[glabel, above] at (vbox2.north) {$x_2$};
+\end{scope}
+
+% x_3
+\begin{scope}[shift={(7.6,0)}]
+    \node[nd] (x3a0) at (0,0) {};
+    \node[nd] (x3a1) at (0,-1) {};
+    \node[nd] (x3a2) at (0,-2) {};
+    \draw (x3a0) -- node[elabel, left] {$e_{x_3}$} (x3a1);
+    \draw (x3a1) -- node[elabel, left] {$e_{\bar{x}_3}$} (x3a2);
+
+    \node[nd] (x3b0) at (1.1, 0.2) {};
+    \node[nd] (x3b1) at (1.1,-0.8) {};
+    \draw (x3b0) -- node[elabel, right] {$e_{x_3}'$} (x3b1);
+
+    \node[nd] (x3c0) at (1.1,-1.2) {};
+    \node[nd] (x3c1) at (1.1,-2.2) {};
+    \draw (x3c0) -- node[elabel, right] {$e_{\bar{x}_3}'$} (x3c1);
+
+    \draw[prec, thin] ($(x3a0)!0.3!(x3a1)+(0.08,0)$) to[out=15,in=165] ($(x3b0)!0.7!(x3b1)+(-0.08,0)$);
+    \draw[prec, thin] ($(x3a1)!0.7!(x3a2)+(0.08,0)$) to[out=-15,in=-165] ($(x3c0)!0.3!(x3c1)+(-0.08,0)$);
+
+    \node[gadget box, fit=(x3a0)(x3a2)(x3b0)(x3c1)] (vbox3) {};
+    \node[glabel, above] at (vbox3.north) {$x_3$};
+\end{scope}
+
+% dots
+\node at (10.35,-1.1) {\Large $\cdots$};
+
+% x_n
+\begin{scope}[shift={(12.0,0)}]
+    \node[nd] (xna0) at (0,0) {};
+    \node[nd] (xna1) at (0,-1) {};
+    \node[nd] (xna2) at (0,-2) {};
+    \draw (xna0) -- node[elabel, left] {$e_{x_n}$} (xna1);
+    \draw (xna1) -- node[elabel, left] {$e_{\bar{x}_n}$} (xna2);
+
+    \node[nd] (xnb0) at (1.1, 0.2) {};
+    \node[nd] (xnb1) at (1.1,-0.8) {};
+    \draw (xnb0) -- node[elabel, right] {$e_{x_n}'$} (xnb1);
+
+    \node[nd] (xnc0) at (1.1,-1.2) {};
+    \node[nd] (xnc1) at (1.1,-2.2) {};
+    \draw (xnc0) -- node[elabel, right] {$e_{\bar{x}_n}'$} (xnc1);
+
+    \draw[prec, thin] ($(xna0)!0.3!(xna1)+(0.08,0)$) to[out=15,in=165] ($(xnb0)!0.7!(xnb1)+(-0.08,0)$);
+    \draw[prec, thin] ($(xna1)!0.7!(xna2)+(0.08,0)$) to[out=-15,in=-165] ($(xnc0)!0.3!(xnc1)+(-0.08,0)$);
+
+    \node[gadget box, fit=(xna0)(xna2)(xnb0)(xnc1)] (vboxn) {};
+    \node[glabel, above] at (vboxn.north) {$x_n$};
+\end{scope}
+
+% ====== Clause gadgets ======
+% C_1 = (x_1 v \bar{x}_2 v x_3)
+\begin{scope}[shift={(1.0,-5.5)}]
+    \node[nd] (c1e0) at (0,0) {};
+    \node[nd] (c1e1) at (0,-0.9) {};
+    \node[nd] (c1e2) at (0,-1.8) {};
+    \node[nd] (c1e3) at (0,-2.7) {};
+    \draw (c1e0) -- node[elabel, right] {$e_{C_1}^1$} (c1e1);
+    \draw (c1e1) -- node[elabel, left] {$e_{C_1}^2$} (c1e2);
+    \draw (c1e2) -- node[elabel, left] {$e_{C_1}^3$} (c1e3);
+
+    \node[gadget box, fit=(c1e0)(c1e3)] (cbox1) {};
+    \node[glabel, below=2pt] at (cbox1.south) {$C_1 = \br{x_1 \vee \bar{x}_2 \vee x_3}$};
+\end{scope}
+
+% C_2 = (\bar{x}_1 v x_3 v x_n)
+\begin{scope}[shift={(6.0,-5.5)}]
+    \node[nd] (c2e0) at (0,0) {};
+    \node[nd] (c2e1) at (0,-0.9) {};
+    \node[nd] (c2e2) at (0,-1.8) {};
+    \node[nd] (c2e3) at (0,-2.7) {};
+    \draw (c2e0) -- node[elabel, right] {$e_{C_2}^1$} (c2e1);
+    \draw (c2e1) -- node[elabel, left] {$e_{C_2}^2$} (c2e2);
+    \draw (c2e2) -- node[elabel, left] {$e_{C_2}^3$} (c2e3);
+
+    \node[gadget box, fit=(c2e0)(c2e3)] (cbox2) {};
+    \node[glabel, below=2pt] at (cbox2.south) {$C_2 = \br{\bar{x}_1 \vee x_3 \vee x_n}$};
+\end{scope}
+
+% C_3 = (x_2 v \bar{x}_3 v \bar{x}_n)
+\begin{scope}[shift={(11.0,-5.5)}]
+    \node[nd] (c3e0) at (0,0) {};
+    \node[nd] (c3e1) at (0,-0.9) {};
+    \node[nd] (c3e2) at (0,-1.8) {};
+    \node[nd] (c3e3) at (0,-2.7) {};
+    \draw (c3e0) -- node[elabel, right] {$e_{C_3}^1$} (c3e1);
+    \draw (c3e1) -- node[elabel, right] {$e_{C_3}^2$} (c3e2);
+    \draw (c3e2) -- node[elabel, left] {$e_{C_3}^3$} (c3e3);
+
+    \node[gadget box, fit=(c3e0)(c3e3)] (cbox3) {};
+    \node[glabel, below=2pt] at (cbox3.south) {$C_3 = \br{x_2 \vee \bar{x}_3 \vee \bar{x}_n}$};
+\end{scope}
+
+% ====== Precedence arrows from variables to clauses ======
+% C_1: x_1 -> e_{C_1}^1 (from e_{x_1}), \bar{x}_2 -> e_{C_1}^2 (from e'_{\bar{x}_2}), x_3 -> e_{C_1}^3 (from e_{x_3})
+\draw[prec, blue!70!black] ($(x1a0)!0.5!(x1a1)+(0.04,0)$) to[out=-70, in=110] ($(c1e0)!0.5!(c1e1)+(-0.04,0)$);
+\draw[prec, red!70!black] ($(x2c0)!0.5!(x2c1)+(-0.04,0)$) to[out=-110, in=40] ($(c1e1)!0.5!(c1e2)+(0.04,0)$);
+\draw[prec, blue!70!black] ($(x3a0)!0.5!(x3a1)+(-0.04,0)$) to[out=-120, in=40] ($(c1e2)!0.5!(c1e3)+(0.04,0)$);
+
+% C_2: \bar{x}_1 -> e_{C_2}^1 (from e_{\bar{x}_1}), x_3 -> e_{C_2}^2 (from e'_{x_3}), x_n -> e_{C_2}^3 (from e_{x_n})
+\draw[prec, red!70!black] ($(x1a1)!0.7!(x1a2)+(0.04,0)$) to[out=-40, in=140] ($(c2e0)!0.5!(c2e1)+(-0.04,0)$);
+\draw[prec, blue!70!black] ($(x3b0)!0.5!(x3b1)+(-0.04,0)$) to[out=-100, in=50] ($(c2e1)!0.5!(c2e2)+(0.04,0)$);
+\draw[prec, blue!70!black] ($(xna0)!0.5!(xna1)+(-0.04,0)$) to[out=-120, in=40] ($(c2e2)!0.5!(c2e3)+(0.04,0)$);
+
+% C_3: x_2 -> e_{C_3}^1 (from e_{x_2}), \bar{x}_3 -> e_{C_3}^2 (from e'_{\bar{x}_3}), \bar{x}_n -> e_{C_3}^3 (from e_{\bar{x}_n})
+\draw[prec, blue!70!black] ($(x2a0)!0.3!(x2a1)+(0.04,0)$) to[out=-30, in=140] ($(c3e0)!0.5!(c3e1)+(-0.04,0)$);
+\draw[prec, red!70!black] ($(x3c0)!0.5!(x3c1)+(0.04,0)$) to[out=-55, in=130] ($(c3e1)!0.5!(c3e2)+(-0.04,0)$);
+\draw[prec, red!70!black] ($(xna1)!0.5!(xna2)+(0.04,0)$) to[out=-70, in=40] ($(c3e2)!0.5!(c3e3)+(0.04,0)$);
+
+\end{tikzpicture}
+\caption{Overview of the reduction from 3-SAT. Variable gadgets for $x_1, x_2, x_3, \ldots, x_n$ are shown on top, and three example clause gadgets $C_1 = \br{x_1 \vee \bar{x}_2 \vee x_3}$, $C_2 = \br{\bar{x}_1 \vee x_3 \vee x_n}$, and $C_3 = \br{x_2 \vee \bar{x}_3 \vee \bar{x}_n}$ are shown below. Dashed arrows between variable and clause gadgets indicate precedence constraints. Blue arrows correspond to positive literals (from $e_{x_i}$~or~$e_{x_i}'$), red arrows correspond to negated literals (from $e_{\bar{x}_i}$~or~$e_{\bar{x}_i}'$).}
+\label{fig:construction-overview}
+\end{figure}

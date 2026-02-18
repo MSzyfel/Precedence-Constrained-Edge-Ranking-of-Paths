@@ -2,9 +2,10 @@
 \label{sec:hardness}
 
 We start by allowing the input graph to consist of a collection of paths of $O\br{1}$ size, rather than a single path, and show that the computing $\precrankmax$ is APX-hard. Then, we show how to use a generic construction, which transforms an instance of the problem with a collection of paths into an instance of the problem with a single path. This is done by connecting the paths in an arbitrary order, and enforcing that the additional edges are labeled with colors which are levels of a full binary tree of logarithmic height. By doing so, we show that the problem is NP-hard to approximate within a factor of $O(1+\frac{1}{\log n})$, unless P=NP. This implies that no PTAS for the problem exists unless NP admits quasi-polynomial time algorithms.
+
 \begin{theorem}
 \label{thm:apx-hardness}
-It is NP-hard to distinguish between instances of the precedence-constrained edge ranking problem on a collection of paths of $O\br{1}$ size, which have $\precrankmax=3$ and  $\precrankmax=4$. In particular, the precedence-constrained edge ranking problem on a collection of paths of $O\br{1}$ size is APX-hard.
+It is NP-hard to distinguish between instances of the precedence-constrained edge ranking problem on a collection of paths of $O\br{1}$ size, which have $\precrankmax=4$ and  $\precrankmax=5$. In particular, the precedence-constrained edge ranking problem on a collection of paths of $O\br{1}$ size is APX-hard.
 \end{theorem}
 \begin{proof}
     An instance of 3-SAT consists of a set of boolean variables $\cX=\brc{x_1, \ldots, x_n}$ and a set of clauses $\cC=\brc{C_1, \ldots, C_m}$, where each clause is a disjunction of exactly three literals. The goal is to determine whether there exists an assignment to the variables such that all the clauses are satisfied. It is well known that 3-SAT is NP-hard problem. We show how to reduce an instance of 3-SAT to an instance of the precedence-constrained edge ranking problem on $O\br{1}$-length paths.

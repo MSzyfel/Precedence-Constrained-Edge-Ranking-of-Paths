@@ -1,6 +1,7 @@
 \section{Exact algorithm for the case of proper bracketing}
 \label{sec:exact}
 
+In this section we deal with a special case of the problem where the precedence constraints are induced by a proper bracketing of the algebraic expression. Such a case has the following structure: If some consecutive edges $e_i, e_{i+1}, \dots, e_j$ belong to the same bracket, then for both edges $e_{i-1}$ and $e_{j+1}$ (if they exist) we have that $e_{i-1}\prec e_k$ and $e_{j+1}\prec e_k$ for every $i\leq k \leq j$, since all of the operations in the bracket need to be performed before the operations which are its neighbours. We show, that if precedence constraints have the above structure, then both the min-max and the min-sum versions of the problem can be solved in $O\br{n^2}$ time. This is a direct consequence of the \emph{separation property} which enables us to use a dynamic programming approach. The separation property states that if $e$ is the unique edge with the highest color in an optimal precedence-constrained edge ranking of a path, then no precedence constraint are present between edges in the two connected components of $P-e$. 
 \begin{theorem}
 \label{thm:proper-bracketing}
 When the structure of the precedence constraints reflects an ordering induced by a proper bracketing of the algebraic expression, the precedence-constrained edge ranking of a path can be solved in $O(n^2)$ time for both the min-max and the min-sum versions of the problem.
@@ -8,11 +9,12 @@ When the structure of the precedence constraints reflects an ordering induced by
 \begin{proof}
     We begin with the following separation lemma which will be the basis of our dynamic programming algorithm.
 
-    \begin{lemma}\label{lemma:separation}
-        Let $e$ be the unique edge with the highest color in an optimal precedence-constrained edge ranking of a path. If $\spr{P-e}=2$, then no precedence constraint are present between edges in the two connected components of $P-e$. 
+    \begin{lemma}[separation property]\label{lemma:separation}
+        Let $e$ be the unique edge with the lowest color in an optimal precedence-constrained edge ranking of a path. If $\spr{P-e}=2$, then no precedence constraint are present between edges in the two connected components of $P-e$. 
     \end{lemma}
     \begin{proof}
-         \MS{TODO: Add proof.}
+         This is due to the fact that any bracket consists of consecutive subset of edges, and the precedence constraints affect only neighboring edges. Since $e$ is the unique lowest colored edge, for no edge $e'$, $e'\prec e$ holds, and the only precedence constraints including $e$ which can be present are of the form $e\prec e'$. Therefore, $e$ is not in any bracket, and thus no precedence constraint can be present between edges in the two connected components of $P-e$.
+         % Since $e$ is the unique lowest colored edge, for no edge $e'$, $e'\prec e$ holds, and the only precedence constraints including $e$ which can be present are of the form $e\prec e'$. Additionally, if they exist, they are induced by a bracket neighbouring $e$. Consider the left subpath of $P-e$, $P_l$ and right subpath $P_r$. Assume that the bracket is in the $P_l$ side, the other case is symmetric. Now observe, that $e$ is the only edge outside of $P_l$ which can be in a precedence relation with edges in $P_l$. However, since $e\notin E\br{P'}$, no precedence constraint can be present between edges in $P_l$ and $P_r$.
     \end{proof}
 Let $\OPT\br{i,j}=\precrankmax{P[i,j]}$ be the optimal value of the min-max version of the problem for the subpath $P[i,j]$ of $P$.
 As a direct consequence of the above lemma, we have that the problem can be solved by the following DP for the worst case of min-max version of the problem:

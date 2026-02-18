@@ -1,10 +1,13 @@
 \section{Approximation algorithms}
+
+In the following section, we present simple $O\br{\log n}$-approximation algorithms for both the min-max and the min-sum versions of the problem. The algorithm for the min-max version is based on a simple layering approach, while the algorithm for the min-sum version is based on a recursive application of optimal precedence constrained $1/2$-cuts.
+
 \label{sec:approximation}
 \begin{theorem}
 There exists an $O\br{\log n}$-approximation algorithm for the precedence-constrained edge ranking of a path.
 \end{theorem}
 \begin{proof}
-    The algorithm is as follows: Start by assigning to each edge, $e$, its depth in the precedence DAG, $h(e)$, i. e. the length of the longest path in the precedence DAG which ends at $e$, thus decompositing a path into layered indexes by this depth. Let $h$ be the maximum depth of an edge. It is easily visible, that $\OPT\geq h$, since all of the edges belonging to the longest path in the precedence DAG must be colored with different colors. We color the edges of the $k$-th level using at most $\cl{\log n}$ colors by building a balanced binary tree on the edges of the level, and assigning to each edge the color corresponding to its depth in the tree. Since there are at most $h$ levels, we use at most $h\cdot\cl{\log n}$ colors, which yields an $O\br{\log n}$-approximation algorithm.
+    The algorithm is as follows: Start by assigning to each edge, $e$, its depth in the precedence DAG, $h(e)$, i. e. the length of the longest path in the precedence DAG which ends at $e$, thus decompositing a path into layered indexes by this depth. We color the edges of the $k$-th level using at most $\cl{\log n}$ colors by building a balanced binary tree on the edges of the level, and assigning to each edge the color corresponding to its depth in the tree. Let $h$ be the maximum depth of an edge. It is easily visible, that $\OPT\br{P}\geq h$, since all of the edges belonging to the longest path in the precedence DAG must be colored with different colors. Additionally, it is easy to see that we use at most $h\cdot\cl{\log n}$ colors, which yields an $O\br{\log n}$-approximation algorithm.
 \end{proof}
 \begin{theorem}
 There exists an $O\br{\log n}$-approximation algorithm for the precedence-constrained min-sum edge ranking of a path.
@@ -16,7 +19,7 @@ There exists an $O\br{\log n}$-approximation algorithm for the precedence-constr
     Let $P_1,\dots,P_t$ be a set of pairwise disjoint subpaths of $P$. Then, $\OPT\br{P} \geq \sum_{i=1}^t \OPT\br{P_i}$.
 \end{lemma}
 \begin{proof}
-    This is due to the fact that any coloring of $P$ induces a coloring of each of the subpaths $P_i$, and thus the cost of coloring $P$ is at least the cost of coloring each of the subpaths $P_i$.
+    This is due to the fact that any coloring of $P$ induces a coloring of each of the subpaths $P_i$, and thus the cost of coloring $P$ is at least the sum of costs of coloring all of the subpaths $P_i$.
 \end{proof}
     Our idea is based on the commonly exploited correspondence between problems connected to hierarchical clustering/decision tree construction and cuts separators \cite{ACostFunctionForSimilarityBasedHierarchicalClustering,ApproximateHierarchicalClusteringViaSparsestCutAndSpreadingMetrics,HierarchicalClusteringObjectiveFunctionsAndAlgorithms,ApproximatingTheAverageCaseGraphSearchProblemWithNonUniformCosts, FastApproximationOfSearchTreesOnTreesWithCentroidTrees, OnTheComplexityOfSearchingInTreesAverageCaseMinimization,ImprovedApproximationAlgorithmsForTheAverageCaseTreeSearchingProblem, TightApproximationBoundsOnASimpleAlgorithmForMinimumAverageSearchTimeInTrees}.
     A precedence constrained $1/2$-cut in a path is a subset of edges whose removal splits the path into subpaths of size at most $n/2$, such that the subset is precedence-closed. We wish to minimize the size of this set. We have the following lemma:
@@ -26,16 +29,18 @@ There exists an $O\br{\log n}$-approximation algorithm for the precedence-constr
 \begin{proof}
     Observe that if $S^*$ contains $\br{e_{\fl{n/2}}}$ then it is a $1/2$ cut. In such case we are done, since minimal precedence closed subset of edges containing $\br{e_{\fl{n/2}}}$ is $T[\brc{\br{e_{\fl{n/2}}}}]$. Otherwise, let $a$ be the edge in $S^*$ leftmost closest to $\br{e_{\fl{n/2}}}$ and $b$ be the edge in $S^*$ rightmost closest to $\br{e_{\fl{n/2}}}$. Since $a$ and $b$ suffice to be a $1/2$-cut, the minimal precedence closed subset of edges with this property is $T[\brc{a, b}]$.
 \end{proof}
-The above lemma suffice to construct an $O\br{n^2}$ time algorithm for computing the optimal precedence constrained $1/2$-cut. To do so, simply check all possible pairs of edges $a, b$ which are a $1/2$-cut, and compute the size of $T[\brc{a, b}]$. Additionally, check the size of $T[\brc{\br{e_{\fl{n/2}}}}]$. The minimum of these values is the optimal value of the precedence constrained $1/2$-cut. The following lemma allows us to bound the cost of $\OPT$ by the cost of the optimal precedence constrained $1/2$-cut:
+The above lemma suggests how to construct an $O\br{n^2}$ time algorithm for computing the optimal precedence constrained $1/2$-cut. To do so, simply check all possible pairs of edges $a, b$ which are a $1/2$-cut, and compute the size of $T[\brc{a, b}]$. Additionally, check the size of $T[\brc{\br{e_{\fl{n/2}}}}]$. The minimum of these values is the optimal value of the precedence constrained $1/2$-cut. The following lemma allows us to bound the cost of $\OPT$ by the cost of the optimal precedence constrained $1/2$-cut:
 \begin{lemma}\label{ea:lemma:half_cut_cost}
-    Let $S^*$ be the optimal precedence constrained $1/2$-cut in a path $P$. Then $\OPT\geq n/2\cdot \spr{S^*}$.
+    Let $S^*$ be the optimal precedence constrained $1/2$-cut in a path $P$. Then $\OPT\br{P}\geq n/2\cdot \spr{S^*}$.
 \end{lemma}
 \begin{proof}
-    We build a set $S$ in the following manner. Start with $S=\emptyset$ and $F=P$. While $\spr{F}>\frac{n}{2}$, append to $S$ the unique edge $e$ with the smallest color in $F$, and replace $F$ with the largest connected components of $P'-\br{e}$. Observe that at the end of the process, we have that $S$ is a precedence constrained $1/2$-cut. For each edge $e\in S$, let $n_e$ be the size of the largest subpath $P_e$ of $P$, such that $e$ has minimum color among edges of $P_e$. Firstly, observe that $\sum_{e\in S}n_e\leq \OPT$. This is due to the fact that one can rewrite the value of $\OPT$ as the following recurence:
+    For each edge $e\in S$, let $n_e$ be the size of the largest subpath $P_e$ of $P$, such that $e$ has minimum color among edges of $P_e$. We can rewrite the value of $\OPT\br{P}$ as the following recurence:
 \begin{align*}
 \OPT\br{P} = \min_{e\in P}\brc{n + \sum_{P'\in P-e}\OPT\br{P'}}
 \end{align*}
-It is easy to see, that no matter of the choice of $e$, we have that $\OPT\br{P}=\sum_{e\in E\br{P}}n_e$. Since $S\subseteq E\br{P}$ the claim follows. Secondly, observe that by construction, for every $e\in S$ we have that $n_e\geq n/2$. Therefore we have that $\OPT\geq \sum_{e\in S}n_e\geq n/2\cdot \spr{S}$, which implies the lemma.
+It is easy to see, that no matter of the choice of $e$, we have that $\OPT\br{P}=\sum_{e\in E\br{P}}n_e$. 
+
+We build a set $S$ in the following manner. Start with $S=\emptyset$ and $F=P$. While $\spr{F}>\frac{n}{2}$, append to $S$ the unique edge $e$ with the smallest color in $F$, and replace $F$ with the largest connected components of $F-e$. Observe that at the end of the process, we have that $S$ is a precedence constrained $1/2$-cut. Since $S\subseteq E\br{P}$ we have that $\sum_{e\in S}n_e\leq \OPT\br{P}$. By construction, for every $e\in S$ we have that $n_e\geq n/2$. Therefore we have that $\OPT\br{P}\geq \sum_{e\in S}n_e\geq n/2\cdot \spr{S}\geq n/2\cdot \spr{S^*}$, where the last inequality is by the optimality of $S^*$. The lemma follows.
 \end{proof}
 
 The two lemmas above suggest a natural approach to finding a good labeling. Find the optimal precedence constrained $1/2$-cut $S^*$ in $P$, sort edges of $S^*$ topologically and assign to them $\spr{S^*}$ lowest available colors in this order. Then, recurse on the connected components of $P-S^*$. 

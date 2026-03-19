@@ -58,7 +58,7 @@
 
 \bibliographystyle{plainurl}% the mandatory bibstyle
 
-\title{Precedence-Constrained Edge Ranking of Paths} %TODO Please add
+\title{A Note on Parallel Algebraic Expression Evaluation via Precedence-Constrained Edge Ranking of Paths} %TODO Please add
 
 %\titlerunning{Dummy short title} %TODO optional, please use if title is longer than one line
 
@@ -109,20 +109,25 @@
 
 %TODO mandatory: add short abstract of the document
 \begin{abstract}
-We study the problem of precedence-constrained edge ranking of paths, which is a variant of the classical edge ranking problem. In this problem, we want to assign numbers to the edges of a path so that every two edges labeled with the same number have at least one edge with a lower number between them. Additionally, we have precedence constraints that require some edges to be labeled with smaller numbers than the others.
-The goal is to find a labeling that satisfies the precedence constraints. We wish to minimize either the number of labels used or the sum of the labels assigned to the edges. 
-This problem can be used to model parallel evaluation of algebraic expressions, with precedence constraints induced by the order of operations.
-We show that the problem is NP-hard for both criterions, and admits $O(\log n)$-approximation algorithms. In fact we show that when minimizing the number of colors it is NP-hard to approximate the problem within a factor of $1+o\br{\frac{1}{\log n}}$, unless P=NP. This implies that no QPTAS for the problem exists unless NP admits quasi-polynomial time algorithms.
+We study the problem of parallel algebraic expression evaluation. In this problem, one is given an algebraic expression consisting of sequence of binary operations with precedence constraints encoding the order in which the operations must be performed. The goal is to schedule the operations on unbounded number of parallel machines so that the total time of evaluation is minimized. This problem can be modeled using the precedence-constrained edge ranking of paths, which is a variant of the classical edge ranking problem. In this problem, we want to assign numbers to the edges of a path so that every two edges labeled with the same number have at least one edge with a lower number between them. Additionally, we have precedence constraints that require some edges to be labeled with smaller numbers than the others.
+The goal is to find a labeling that satisfies the precedence constraints minimizing the number of labels used.
+We show that the problem is NP-hard. In fact we show that when minimizing the number of colors it is NP-hard to approximate the problem within a factor of $1+o\br{\frac{1}{\log n}}$, unless P=NP. This implies that no QPTAS for the problem exists unless NP admits quasi-polynomial time algorithms.
 Additionally, we show that when the structure of the precedence constraints reflects an ordering induced by a proper bracketing of the algebraic expression, the problem can be solved in $O(n^2)$ time.
 \end{abstract}
 
 \input{sections/introduction.tex}
 \input{sections/preliminaries.tex}
 \input{sections/hardness.tex}
-\input{sections/approximation_algortihms.tex}
+%\input{sections/three_colors.tex}
+%\input{sections/approximation_algortihms.tex}
 \input{sections/exact.tex}
 \section{Conclusions}
 \label{sec:conclusions}
+
+In this paper, we have shown that the problem of precedence-constrained edge ranking of paths is NP-hard, and that it is NP-hard to approximate the problem within a factor of $1+o\br{\frac{1}{\log n}}$, unless P=NP. We have also shown that when the structure of the precedence constraints reflects an ordering induced by a proper bracketing of the algebraic expression, the problem can be solved in $O(n^2)$ time. 
+
+A question of interest is whether one can obtain efficient approximation algorithm for this problem. In particular it is not hard to see that the the problem admits a simple $O\br{\log n}$-approximation algorithm. To do so, to each edge we assign its depth in the precedence DAG, i. e. the length of the longest path in the precedence DAG which ends at this edge. This decomposes a path into $h$ layers, indexes by this depth. We color the edges of the $k$-th level using at most $\cl{\log n}$ colors by building a balanced binary tree on the edges of the level, and assigning to each edge the color corresponding to its depth in the tree. It is easy to see that such a coloring uses at most $O\br{h\cdot\log n}$ labels. Since for any coloring $h$ is a trivial lower bound on the number of colors used, we have that the above algorithm is an $O\br{\log n}$-approximation algorithm. It is an interesting question whether one can obtain a constant factor approximation for this problem.
+
 % \section{Typesetting instructions -- Summary}
 % \label{sec:typesetting-summary}
 

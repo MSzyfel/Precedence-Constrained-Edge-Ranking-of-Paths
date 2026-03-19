@@ -4,7 +4,8 @@
 In this section we deal with a special case of the problem where the precedence constraints are induced by a proper bracketing of the algebraic expression. Such a case has the following structure: If some consecutive edges $e_i, e_{i+1}, \dots, e_j$ belong to the same bracket, then for both edges $e_{i-1}$ and $e_{j+1}$ (if they exist) we have that $e_{i-1}\prec e_k$ and $e_{j+1}\prec e_k$ for every $i\leq k \leq j$, since all of the operations in the bracket need to be performed before the operations which are its neighbours. We show, that if precedence constraints have the above structure, then both the min-max and the min-sum versions of the problem can be solved in $O\br{n^2}$ time. This is a direct consequence of the \emph{separation property} which enables us to use a dynamic programming approach. The separation property states that if $e$ is the unique edge with the highest color in an optimal precedence-constrained edge ranking of a path, then no precedence constraint are present between edges in the two connected components of $P-e$. 
 \begin{theorem}
 \label{thm:proper-bracketing}
-When the structure of the precedence constraints reflects an ordering induced by a proper bracketing of the algebraic expression, the precedence-constrained edge ranking of a path can be solved in $O(n^2)$ time for both the min-max and the min-sum versions of the problem.
+When the structure of the precedence constraints reflects an ordering induced by a proper bracketing of the algebraic expression, the precedence-constrained edge ranking of a path can be solved in $O(n^2)$ time.
+%  for both the min-max and the min-sum versions of the problem.
 \end{theorem}
 \begin{proof}
     We begin with the following separation lemma which will be the basis of our dynamic programming algorithm.
@@ -19,7 +20,7 @@ When the structure of the precedence constraints reflects an ordering induced by
 Let $\OPT\br{i,j}=\precrankmax{P[i,j]}$ be the optimal value of the min-max version of the problem for the subpath $P[i,j]$ of $P$.
 As a direct consequence of the above lemma, we have that the problem can be solved by the following DP for the worst case of min-max version of the problem:
 \begin{align*}
-\OPT\br{i,j} = \min_{i\leq k < j, (k,k+1) \text{ is a maximum element}}\brc{1+\max\brc{\OPT\br{i, k}, \OPT\br{k+1, j}}}
+\OPT\br{i,j} = \min_{i\leq k < j,(k,k+1) \text{ is a minimum element}}\brc{1+\max\brc{\OPT\br{i, k}, \OPT\br{k+1, j}}}
 \end{align*}
 
 It is ease to see that the above recurrence relationship can be solved in $O\br{n^3}$ time since there are at most $O\br{n^2}$ subproblems and each subproblem can be solved by checking at most $O\br{n}$ possible choices for the edge with the highest color. We will now show how to speed up the above algorithm to run in $O\br{n^2}$ time. The idea behind the speed-up described below is based on the techniques used to construct decision tree for binary searching in a linearly ordered set due to Knuth \cite{Knuth1973} and Yao \cite{EffDPusingQI}. For every $i\leq k< j$ let $\OPT_k\br{i,j} = 1 + \max\brc{\OPT\br{i, k}, \OPT\br{k, j}}$ be the optimal cost of coloring $P[i,j]$ assuming that the edge $\br{k, k+1}$ is the unique edge with the smallest color. We have that $\OPT\br{i,j}\leq \OPT_k\br{i,j}$. Additionally, define 
@@ -32,7 +33,7 @@ $K\br{i,j} = \max_{i\leq k< j}\brc{k|\OPT_k\br{i,j}=\OPT\br{i,j}}$ to be the lar
    \end{proof} 
 The above lemma allows us to reduce the amount of computation required. The idea is as follows: Before calculating $\OPT\br{i,j}$ we firstly calculate the values of $\OPT\br{i -1,j}$ and $\OPT\br{i,j + 1}$. In doing so we also calculate the indices $K\br{i,j-1}$ and $K\br{i +1,j}$ required to narrow the space of possible choices for value of $K\br{i,j}$. We obtain the following recurrence relationship:
 $$
-\OPT\br{i,j} = \min_{K\br{i,j-1}\leq k\leq K\br{i +1,j}, (k,k+1) \text{ is a maximum element}}\brc{1+\max\brc{\OPT\br{i, k}, \OPT\br{k+1, j}}}
+\OPT\br{i,j} = \min_{K\br{i,j-1}\leq k\leq K\br{i +1,j}, (k,k+1) \text{ is a minimum element}}\brc{1+\max\brc{\OPT\br{i, k}, \OPT\br{k+1, j}}}
 $$
 It remains to show that the running time can be bounded by $O\br{n^2}$. The amount of computation steps required by the algorithm is equal to:
 \begin{align*}
@@ -42,36 +43,36 @@ It remains to show that the running time can be bounded by $O\br{n^2}$. The amou
 \end{align*}
 Where the second equality is due to the fact that all of the terms except $K\br{i + 1,n}$ and $K\br{1,i}$ cancel, and the last equality is trivially due to the fact that $K\br{i + 1,n} < n$. This proves the claim.
 
-We now show how to solve the min-sum version of the problem in $O\br{n^2}$ time. The idea is to use the same dynamic programming algorithm as for the min-max version of the problem, but with a different recurrence relationship. Let $\OPT\br{i,j}=\precranksum{P[i,j]}$ be the optimal value of the min-sum version of the problem for the subpath $P[i,j]$ of $P$. We have that:
+% We now show how to solve the min-sum version of the problem in $O\br{n^2}$ time. The idea is to use the same dynamic programming algorithm as for the min-max version of the problem, but with a different recurrence relationship. Let $\OPT\br{i,j}=\precranksum{P[i,j]}$ be the optimal value of the min-sum version of the problem for the subpath $P[i,j]$ of $P$. We have that:
 
-\begin{align*}
-\OPT\br{i,j} = \min_{i\leq k < j, (k,k+1) \text{ is a maximum element}}\brc{j-i+\OPT\br{i, k}+ \OPT\br{k+1, j}}
-\end{align*}
+% \begin{align*}
+% \OPT\br{i,j} = \min_{i\leq k < j, (k,k+1) \text{ is a minimum element}}\brc{j-i+\OPT\br{i, k}+ \OPT\br{k+1, j}}
+% \end{align*}
 
-For every $i\leq k< j$ let $\OPT_k\br{i,j} = j-i + \OPT\br{i, k} + \OPT\br{k, j}$ be the optimal cost of coloring $P[i,j]$ assuming that the edge $\br{k, k+1}$ is the unique edge with the smallest color. We have that $\OPT\br{i,j}\leq \OPT_k\br{i,j}$. Additionally, define 
-$K\br{i,j} = \max_{i\leq k< j}\brc{k|\OPT_k\br{i,j}=\OPT\br{i,j}}$ to be the largest index such that setting $(k,k+1)$ as the edge with smallest color yields an optimal solution.
-Let $i\leq i'\leq j'\leq j$. We have the following quadrangle inequality (QI):
-$\br{j-i}+\br{j'-i'}\leq \br{j'-i}+\br{j-i'}$.
-We have the following lemma:
-\begin{lemma}
-   $K\br{i,j-1}\leq K\br{i,j}\leq K\br{i +1,j}$
-   \begin{proof}
-   To prove the first inequality $K\br{i,j-1}\leq K\br{i,j}$ we will show that for $i\leq k \leq k' < j$ we have that: $\OPT_{k'}\br{i, j - 1} \leq \OPT_{k}\br{i, j - 1}$ implies that $\OPT_{k'}\br{i, j} \leq \OPT_{k}\br{i, j}$. This condition suffices as whenever $k'=K\br{i, j - 1}$ this means that either $k'=k$ or $k\neq K\br{i, j}$ as choosing $\br{k',k'+1}$ as the edge with the smallest color provides a solution which cannot be worse\footnote{Note that by the definition we require $K\br{i, j}$ to be maximal.}. By using QI at $k\leq k'\leq j -1< j$ we have:
-   $$
-   \OPT\br{k, j-1} + \OPT\br{k', j}\leq \OPT\br{k', j-1} + \OPT\br{k, j}
-   $$
-   By adding $\OPT\br{i, k}+\OPT\br{i, k'}+1$ to both sides we obtain:
-   $$
-   \OPT_k\br{i, j-1} + \OPT_{k'}\br{i, j-1} \leq \OPT_{k'}\br{i, j-1} + \OPT_{k}\br{i, j-1}
-   $$
-   Which implies the claim. 
-   The second inequality $K\br{i,j}\leq K\br{i +1,j}$ follows similarly from the QI at $i < i+1 \leq k \leq k' $.
-   \end{proof}
-\end{lemma}
+% For every $i\leq k< j$ let $\OPT_k\br{i,j} = j-i + \OPT\br{i, k} + \OPT\br{k, j}$ be the optimal cost of coloring $P[i,j]$ assuming that the edge $\br{k, k+1}$ is the unique edge with the smallest color. We have that $\OPT\br{i,j}\leq \OPT_k\br{i,j}$. Additionally, define 
+% $K\br{i,j} = \max_{i\leq k< j}\brc{k|\OPT_k\br{i,j}=\OPT\br{i,j}}$ to be the largest index such that setting $(k,k+1)$ as the edge with smallest color yields an optimal solution.
+% Let $i\leq i'\leq j'\leq j$. We have the following quadrangle inequality (QI):
+% $\br{j-i}+\br{j'-i'}\leq \br{j'-i}+\br{j-i'}$.
+% We have the following lemma:
+% \begin{lemma}
+%    $K\br{i,j-1}\leq K\br{i,j}\leq K\br{i +1,j}$
+%    \begin{proof}
+%    To prove the first inequality $K\br{i,j-1}\leq K\br{i,j}$ we will show that for $i\leq k \leq k' < j$ we have that: $\OPT_{k'}\br{i, j - 1} \leq \OPT_{k}\br{i, j - 1}$ implies that $\OPT_{k'}\br{i, j} \leq \OPT_{k}\br{i, j}$. This condition suffices as whenever $k'=K\br{i, j - 1}$ this means that either $k'=k$ or $k\neq K\br{i, j}$ as choosing $\br{k',k'+1}$ as the edge with the smallest color provides a solution which cannot be worse\footnote{Note that by the definition we require $K\br{i, j}$ to be maximal.}. By using QI at $k\leq k'\leq j -1< j$ we have:
+%    $$
+%    \OPT\br{k, j-1} + \OPT\br{k', j}\leq \OPT\br{k', j-1} + \OPT\br{k, j}
+%    $$
+%    By adding $\OPT\br{i, k}+\OPT\br{i, k'}+1$ to both sides we obtain:
+%    $$
+%    \OPT_k\br{i, j-1} + \OPT_{k'}\br{i, j-1} \leq \OPT_{k'}\br{i, j-1} + \OPT_{k}\br{i, j-1}
+%    $$
+%    Which implies the claim. 
+%    The second inequality $K\br{i,j}\leq K\br{i +1,j}$ follows similarly from the QI at $i < i+1 \leq k \leq k' $.
+%    \end{proof}
+% \end{lemma}
  
-Using the above lemma, we obtain the following recurrence relationship:
-$$
-\OPT\br{i,j} = \min_{K\br{i,j-1}\leq k\leq K\br{i +1,j}}\brc{w\br{i,j}+\OPT\br{i, k}+ \OPT\br{k+1, j}}
-$$
-By using the same argument as for the min-max version of the problem, we have that the above algorithm runs in $O\br{n^2}$ time. This proves the claim.
+% Using the above lemma, we obtain the following recurrence relationship:
+% $$
+% \OPT\br{i,j} = \min_{K\br{i,j-1}\leq k\leq K\br{i +1,j},(k,k+1) \text{ is a minimum element}}\brc{j-i+\OPT\br{i, k}+ \OPT\br{k+1, j}}
+% $$
+% By using the same argument as for the min-max version of the problem, we have that the above algorithm runs in $O\br{n^2}$ time. This proves the claim.
     \end{proof}

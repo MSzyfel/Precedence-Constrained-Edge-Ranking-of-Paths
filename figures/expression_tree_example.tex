@@ -111,6 +111,6 @@
 \draw[prec] (p10) -- (pt2);
 \draw[prec] (p11) -- (pt2);
 \end{tikzpicture}
-\caption{Expression tree for $E = (a+b+c+d+e+f)\cdot(g+h+i) + (j+k+l\cdot m)\cdot(n+o) + (p+q+r)$. Each arrow denotes a precedence constraint. The numbers next to the operators denote an example valid ranking of the edges of the path graph, which corresponds to a valid parallel evaluation schedule for the expression. When executing the expression in parallel, at each time step, the colors are processed in an descending order.}
+\caption{Expression tree for $E = (a+b+c+d+e+f)\cdot(g+h+i) + (j+k+l\cdot m)\cdot(n+o) + (p+q+r)$. Each arrow denotes a precedence constraint. The numbers next to the operators denote an example valid edge ranking of the path induced by the expression tree. When executing the expression in parallel, at each time step, the edges with the same label are processed in parallel, in a descending order of their labels.}
 \label{fig:expression-tree-example}
 \end{figure}

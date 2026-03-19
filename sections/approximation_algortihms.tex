@@ -7,7 +7,7 @@ In the following section, we present simple $O\br{\log n}$-approximation algorit
 There exists an $O\br{\log n}$-approximation algorithm for the precedence-constrained edge ranking of a path.
 \end{theorem}
 \begin{proof}
-    The algorithm is as follows: Start by assigning to each edge, $e$, its depth in the precedence DAG, $h(e)$, i. e. the length of the longest path in the precedence DAG which ends at $e$, thus decompositing a path into layered indexes by this depth. We color the edges of the $k$-th level using at most $\cl{\log n}$ colors by building a balanced binary tree on the edges of the level, and assigning to each edge the color corresponding to its depth in the tree. Let $h$ be the maximum depth of an edge. It is easily visible, that $\OPT\br{P}\geq h$, since all of the edges belonging to the longest path in the precedence DAG must be colored with different colors. Additionally, it is easy to see that we use at most $h\cdot\cl{\log n}$ colors, which yields an $O\br{\log n}$-approximation algorithm.
+    The algorithm is as follows: Start by assigning to each edge, $e$, its depth in the precedence DAG, $h(e)$, i. e. the length of the longest path in the precedence DAG which ends at $e$, thus decompositing a path into layered indexes by this depth. We color the edges of the $k$-th level using at most $\cl{\log n}$ colors by building a balanced binary tree on the edges of the level, and assigning to each edge the color corresponding to its depth in the tree. Let $h$ be the maximum depth of an edge. It is easily visible, that $\OPT\br{P, T}\geq h$, since all of the edges belonging to the longest path in the precedence DAG must be colored with different colors. Additionally, it is easy to see that we use at most $h\cdot\cl{\log n}$ colors, which yields an $O\br{\log n}$-approximation algorithm.
 \end{proof}
 \begin{theorem}
 There exists an $O\br{\log n}$-approximation algorithm for the precedence-constrained min-sum edge ranking of a path.
@@ -15,8 +15,7 @@ There exists an $O\br{\log n}$-approximation algorithm for the precedence-constr
 \begin{proof}
     To obtain an algorithm for the average case, we use a different approach. We start with the following lemma:
     \begin{lemma}\label{ea:lemma:subinstances_avg}
-    Let $P$ be a path and let 
-    Let $P_1,\dots,P_t$ be a set of pairwise disjoint subpaths of $P$. Then, $\OPT\br{P} \geq \sum_{i=1}^t \OPT\br{P_i}$.
+    Let $P$ be a path and let $S\subseteq E\br{P}$ be a precedence closed subset of edges. Let $P-S=\brc{P_1,\dots,P_t}$. Then, $\OPT\br{P, T} \geq \sum_{i=1}^t \OPT\br{P_i, T-S}$.
 \end{lemma}
 \begin{proof}
     This is due to the fact that any coloring of $P$ induces a coloring of each of the subpaths $P_i$, and thus the cost of coloring $P$ is at least the sum of costs of coloring all of the subpaths $P_i$.
@@ -29,28 +28,28 @@ There exists an $O\br{\log n}$-approximation algorithm for the precedence-constr
 \begin{proof}
     Observe that if $S^*$ contains $\br{e_{\fl{n/2}}}$ then it is a $1/2$ cut. In such case we are done, since minimal precedence closed subset of edges containing $\br{e_{\fl{n/2}}}$ is $T[\brc{\br{e_{\fl{n/2}}}}]$. Otherwise, let $a$ be the edge in $S^*$ leftmost closest to $\br{e_{\fl{n/2}}}$ and $b$ be the edge in $S^*$ rightmost closest to $\br{e_{\fl{n/2}}}$. Since $a$ and $b$ suffice to be a $1/2$-cut, the minimal precedence closed subset of edges with this property is $T[\brc{a, b}]$.
 \end{proof}
-The above lemma suggests how to construct an $O\br{n^2}$ time algorithm for computing the optimal precedence constrained $1/2$-cut. To do so, simply check all possible pairs of edges $a, b$ which are a $1/2$-cut, and compute the size of $T[\brc{a, b}]$. Additionally, check the size of $T[\brc{\br{e_{\fl{n/2}}}}]$. The minimum of these values is the optimal value of the precedence constrained $1/2$-cut. The following lemma allows us to bound the cost of $\OPT$ by the cost of the optimal precedence constrained $1/2$-cut:
+The above lemma suggests how to construct an $O\br{n^2}$ time algorithm for computing the optimal precedence constrained $1/2$-cut. To do so, simply check all possible pairs of edges $a, b$ which are a $1/2$-cut, and compute the size of $T[\brc{a, b}]$. Additionally, check the size of $T[\brc{\br{e_{\fl{n/2}}}}]$. The minimum of these values is the optimal value of the precedence constrained $1/2$-cut. Note, that we allow our instance to contain edges outside of $P$ in the precedence DAG, however this does not affect the correctness of the above algorithm. The following lemma allows us to bound the cost of $\OPT$ by the cost of the optimal precedence constrained $1/2$-cut:
 \begin{lemma}\label{ea:lemma:half_cut_cost}
-    Let $S^*$ be the optimal precedence constrained $1/2$-cut in a path $P$. Then $\OPT\br{P}\geq n/2\cdot \spr{S^*}$.
+    Let $S^*$ be the optimal precedence constrained $1/2$-cut in a $\br{P,T}$. Then $\OPT\br{P, T}\geq n/2\cdot \spr{S^*}$.
 \end{lemma}
 \begin{proof}
-    For each edge $e\in S$, let $n_e$ be the size of the largest subpath $P_e$ of $P$, such that $e$ has minimum color among edges of $P_e$. We can rewrite the value of $\OPT\br{P}$ as the following recurence:
+    For each edge $e\in S$, let $n_e$ be the size of the largest subpath $P_e$ of $P$, such that $e$ has minimum color among edges of $P_e$. We can rewrite the value of $\OPT\br{P, T}$ as the following recurence:
 \begin{align*}
-\OPT\br{P} = \min_{e\in P}\brc{n + \sum_{P'\in P-e}\OPT\br{P'}}
+\OPT\br{P, T} = \min_{e\in E\br{P}, e \text{ is a minimum element in} T}\brc{n + \sum_{P'\in P-e}\OPT\br{P', T-e}}
 \end{align*}
-It is easy to see, that no matter of the choice of $e$, we have that $\OPT\br{P}=\sum_{e\in E\br{P}}n_e$. 
+It is easy to see, that no matter of the choice of $e$, we have that $\OPT\br{P, T}=\sum_{e\in E\br{P}}n_e$. 
 
-We build a set $S$ in the following manner. Start with $S=\emptyset$ and $F=P$. While $\spr{F}>\frac{n}{2}$, append to $S$ the unique edge $e$ with the smallest color in $F$, and replace $F$ with the largest connected components of $F-e$. Observe that at the end of the process, we have that $S$ is a precedence constrained $1/2$-cut. Since $S\subseteq E\br{P}$ we have that $\sum_{e\in S}n_e\leq \OPT\br{P}$. By construction, for every $e\in S$ we have that $n_e\geq n/2$. Therefore we have that $\OPT\br{P}\geq \sum_{e\in S}n_e\geq n/2\cdot \spr{S}\geq n/2\cdot \spr{S^*}$, where the last inequality is by the optimality of $S^*$. The lemma follows.
+We build a set $S$ in the following manner. Start with $S=\emptyset$ and $R=P$. While $\spr{R}>\frac{n}{2}$, append to $S$ the unique edge $e$ with the smallest color in $R$, and replace $R$ with the largest connected components of $R-e$. Observe that at the end of the process, we have that $S$ is a precedence constrained $1/2$-cut. Since $S\subseteq E\br{P}$ we have that $\sum_{e\in S}n_e\leq \OPT\br{P, T}$. By construction, for every $e\in S$ we have that $n_e\geq n/2$. Therefore we have that $\OPT\br{P, T}\geq \sum_{e\in S}n_e\geq n/2\cdot \spr{S}\geq n/2\cdot \spr{S^*}$, where the last inequality is by the optimality of $S^*$. The lemma follows.
 \end{proof}
 
-The two lemmas above suggest a natural approach to finding a good labeling. Find the optimal precedence constrained $1/2$-cut $S^*$ in $P$, sort edges of $S^*$ topologically and assign to them $\spr{S^*}$ lowest available colors in this order. Then, recurse on the connected components of $P-S^*$. 
+The two lemmas above suggest a natural approach to finding a good labeling. Start with $F=P$. While there exists some connected component in $F$, $R$, find the optimal precedence constrained $1/2$-cut $S^*$ in $R$, sort edges of $S^*$ topologically and assign to them at most $\spr{S^*}$ lowest available colors in this order. Then, let $F=F-S^*$.
 \begin{lemma}\label{ea:thm:binary-search-approximation}
     The above algorithm is an $2\cdot\log n$-approximation.
 \end{lemma}
 \begin{proof}
-    Let $\ell$ be the decision tree built by the algorithm. We prove by induction on $n$ that the cost of $\ell$ is at most $2\log n\cdot \OPT$. The base case of $n=1$ is trivial. For the inductive step, let $S^*$ be the optimal precedence constrained $1/2$-cut in $P$. By the inductive hypothesis, the approximation achieved by the algorithm is at most:
+    Let $\ell$ be the decision tree built by the algorithm. We prove by induction on $n$ that the cost of $\ell$ is at most $2\log n\cdot \OPT\br{P, T}$. The base case of $n=1$ is trivial. Let $T'=T- S^*$. By the inductive hypothesis, the approximation achieved by the algorithm is at most:
     \begin{align*}
-        \frac{n\cdot\spr{S^*}+\sum_{P'\in P-S^*}2\log\br{|P'|}\cdot \OPT\br{P'}}{\OPT\br{P}}&\leq 2 + \frac{\sum_{P'\in P-S^*} 2\cdot \log\br{\frac{n}{2}}\cdot \OPT\br{P'}}{\sum_{P'\in P-S^*}\OPT\br{P'}}
+        \frac{n\cdot\spr{S^*}+\sum_{P'\in P-S^*}2\cdot\log\br{|P'|}\cdot \OPT\br{P', T'}}{\OPT\br{P, T}}&\leq 2 + \frac{\sum_{P'\in P-S^*} 2\cdot \log\br{\frac{n}{2}}\cdot \OPT\br{P', T'}}{\sum_{P'\in P-S^*}\OPT\br{P', T'}}
         \\&= 
         2+ 2\cdot \log\br{\frac{n}{2}} = 2\cdot \log n
     \end{align*}
